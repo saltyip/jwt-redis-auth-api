@@ -1,5 +1,18 @@
-//this file takes care of 
-//  jwt token function like = generateaccestoken , genrate refresh , hashing the refresh token, verifying accesstoken 
+/**blog:
+  * this file takes care of the jwt process and functions
+  *   1)create access
+  *   2)verify access
+  *   3)create refresh
+  *   4)hash refresh
+  *
+  * 1) -> this is done using jwt.sign -> creates a payload -> with secrte expirty and userId 
+  * 2) -> the token is then verified with the secret and if expired it expired cancel it if the decoding or whatever with secret doesnt work then also 
+  *       cancel but if it works then the token will output the userId it points to 
+  * 3) -> refresh token just a random string
+  * 4) -> refrsh token is hashed as its stored in db -> its hashed in sha256 
+  *
+  */  
+
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 

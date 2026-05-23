@@ -1,6 +1,28 @@
-//this file contains the functions related to fn of user, these will later be used to create functions at each end point (ex register enpoint will have a fn where it takes user and password right thats will be written here thats all  so it would be endpoijnt regiter under that this register function easy) 
-//    register, login , refreshing token, log out 
-
+/**blog:
+  * this file contains the functions related to fn of user, these will later be used to create functions at each end point (ex register enpoint will have a fn where it takes user and password right thats will be written here thats all  so it would be endpoijnt regiter under that this register function easy) 
+  * register, login , refreshing token, log out 
+  * working of each ->
+  * 1)register user -> needs input email and pass -> check if email exist -> if not -> hash the password -> save it in db -> return the user id 
+  * 2)login user -> get email and pass  -> check if email exist -> yes -> check password by bcrypt.compare -> if correct -> create accessToken,refresh token,hash refresh -> save it in 
+  *                 refresh token db along with familyId(uuid) and expires_at time
+  * 3)refreshing the refresh -> here accessToken is refreshed -> we need refresh token to check -> innput is incomingtoken from cookies -> we 
+  *                             we hash compare this also and check if it exist -> if yes -> we get the userid -> now we need to give a new accessToken byu generate fn  
+  *         the important thing in 3 is we do another thing also 
+    *           familyId and is revoked status is checked and refresh token is refreshed along with accessToken 
+    *           so basically when accessToken need refresh it hits this endpoint
+    *           here then refresh token is first checked (exists, not_revoked(that is check if its not old/used before)),expiry) if all checks passed 
+    *             then it changes refresh token hashes and store it in db and the old refresh token's -> is_revoked thing -> becomes true -> signifying 
+    *             the refresh token cant be used anymore as the revoked test it would fail
+    *             Family id fn -> the function of this is if attacker uses the refresh token before u then he gets a new refresh token -> which gives him a new
+    *             accessToken also thus making u not have control till refresh token expires 
+  *               but with family_id as the refresh_tokne the attacker gets used as status revoked then everry refresh token in that list witht the familyId
+    *             gets revoked also so ull have to relogin but prevernts atatcker from using your account 
+  *
+  * 4)log out -> for log out -> need userID and token -> need user id cuz to log out that user yk -> the user id should be checked thru accessToken verification->
+    *            we again use refresh token to find the user by comparing hash ->after we get the user thru refresh tokekn -> we check or match it with our accessToken to fcheck if its the same uer ->if yes -> then when found -> we revoke his refresh token  
+  *
+    * learning -> IDOR pattern of attacking , XSS and cookie stealing , how to avoid and using family_id and appropriate checks
+  */
 import pool from "../../config/db.js";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
