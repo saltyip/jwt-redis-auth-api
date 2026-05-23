@@ -1,3 +1,7 @@
+/**blog:
+  * ZOD is used for req.body validation so here we jsut create the scehmas for each endpoint how should
+  *the body be like for each
+*/
 import { z } from 'zod'
 
 export const registerSchema = z.object({
