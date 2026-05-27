@@ -73,15 +73,15 @@ npm run dev
 
 ### Auth
 
-| POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Login and receive tokens |
-| POST | `/api/auth/refresh` | Rotate refresh token |
-| POST | `/api/auth/logout` | Invalidate refresh token | Protected |
+- | POST | `/api/auth/register` | Register a new user |
+- | POST | `/api/auth/login` | Login and receive tokens |
+- | POST | `/api/auth/refresh` | Rotate refresh token |
+- | POST | `/api/auth/logout` | Invalidate refresh token | Protected |
 
 ### User
 
-| GET | `/api/user/profile` | Get current user profile | Protected |
-| PATCH | `/api/user/updateprofile` | Update email or password | Protected |
+- | GET | `/api/user/profile` | Get current user profile | Protected |
+- | PATCH | `/api/user/updateprofile` | Update email or password | Protected |
 
 
 ### Request/Response Examples
