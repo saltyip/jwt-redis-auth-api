@@ -2,7 +2,7 @@
 
 Secure REST API with JWT refresh token rotation, Redis caching, and rate limiting.
 
-my devlog where i explain the project = https://devlog-app-beta.vercel.app/project/jwt-redis-auth-api
+devlog for this project => https://devlog-app-beta.vercel.app/project/jwt-redis-auth-api
 
 
 ## Features
