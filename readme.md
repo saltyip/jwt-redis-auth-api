@@ -6,7 +6,7 @@ Secure REST API with JWT refresh token rotation, Redis caching, and rate limitin
 
 - JWT access tokens (short-lived, stateless)
 - Refresh token rotation with family-based reuse attack detection
-- Refresh tokens stored as SHA-256 hashes — never plaintext
+- Refresh tokens stored as SHA-256 hashes
 - httpOnly cookies for refresh token transport
 - Redis caching on profile endpoints with automatic invalidation
 - Rate limiting on auth endpoints (brute force protection)
@@ -23,25 +23,8 @@ Secure REST API with JWT refresh token rotation, Redis caching, and rate limitin
 - bcrypt
 - Zod
 
-## Getting Started
 
-### Prerequisites
-
-- Node.js 18+
-- PostgreSQL
-- Redis
-
-### Installation
-
-```bash
-git clone https://github.com/saltyip/jwt-redis-auth-api
-cd jwt-redis-auth-api
-npm install
-```
-
-### Environment Variables
-
-Create a `.env` file in the root directory:
+`.env` file in root directory:
 
 ```
 ACCESS_TOKEN_SECRET=
@@ -53,9 +36,7 @@ REDIS_URL=
 PORT=3000
 ```
 
-### Database Setup
-
-Run the following SQL to set up the schema:
+### Database PostgreSQL
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
@@ -82,29 +63,26 @@ CREATE INDEX idx_refresh_tokens_family_id ON refresh_tokens(family_id);
 CREATE INDEX idx_refresh_tokens_token_hash ON refresh_tokens(token_hash);
 ```
 
-### Run
+### How To run
 
 ```bash
 npm run dev
 ```
 
-## API Reference
+## API endpoints
 
 ### Auth
 
-| Method | Endpoint | Description | Protected |
-|--------|----------|-------------|-----------|
-| POST | `/api/auth/register` | Register a new user | No |
-| POST | `/api/auth/login` | Login and receive tokens | No |
-| POST | `/api/auth/refresh` | Rotate refresh token | No |
-| POST | `/api/auth/logout` | Invalidate refresh token | Yes |
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Login and receive tokens |
+| POST | `/api/auth/refresh` | Rotate refresh token |
+| POST | `/api/auth/logout` | Invalidate refresh token | Protected |
 
 ### User
 
-| Method | Endpoint | Description | Protected |
-|--------|----------|-------------|-----------|
-| GET | `/api/user/profile` | Get current user profile | Yes |
-| PATCH | `/api/user/updateprofile` | Update email or password | Yes |
+| GET | `/api/user/profile` | Get current user profile | Protected |
+| PATCH | `/api/user/updateprofile` | Update email or password | Protected |
+
 
 ### Request/Response Examples
 
@@ -166,30 +144,3 @@ If a stolen refresh token is used after the legitimate user has already consumed
 
 - Login: 10 attempts per 15 minutes per IP
 - Register: 5 attempts per hour per IP
-
-## Project Structure
-
-```
-  config/
-    db.js
-    redis.js
-  middleware/
-    auth.middleware.js
-    validate.js
-    schemas.js
-    user.middleware
-  modules/
-    auth/
-      auth.routes.js
-      auth.controller.js
-      auth.service.js
-    user/
-      user.routes.js
-      user.controller.js
-      user.service.js
-  utils/
-    tokenUtils.js
-    catchAsync.js
-index.js
-app.js
-```
