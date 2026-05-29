@@ -1,6 +1,6 @@
 //this file consists of the endpoint functions so ye at each point what should each endpoint do those fn 
 import {registerUser, loginUser,refreshTokens,logoutUser } from './auth.service.js'
-import {catchAsync} from '../../utils/catchAsync.js'
+import catchAsync from '../../utils/catchAsync.js'
 export const register = catchAsync(async(req,res)=>{
   const {email,password} = req.body
   await registerUser(email,password)

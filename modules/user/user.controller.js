@@ -1,5 +1,5 @@
 import { getProfile as getProfilefn, updateProfile as updateProfilefn } from './user.service.js'
-import { catchAsync } from '../../utils/catchAsync.js'
+import  catchAsync  from '../../utils/catchAsync.js'
 
 
 export const getProfile = catchAsync(async (req, res) => {
